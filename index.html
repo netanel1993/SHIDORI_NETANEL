@@ -28,6 +28,18 @@
       justify-content: center;
       align-items: center;
       background: black;
+      flex-direction: column;
+    }
+    .main-video iframe {
+      flex: 1;
+    }
+    .stats {
+      background: #ffccdd;
+      color: black;
+      padding: 5px 10px;
+      margin-top: 10px;
+      border-radius: 10px;
+      font-weight: bold;
     }
     .chat-box {
       width: 20%;
@@ -112,6 +124,7 @@
   <div class="main-video">
     <iframe width="100%" height="100%" src="https://player.vimeo.com/video/76979871" frameborder="0" allowfullscreen></iframe>
     <div class="hearts">❤️ 😍 🍬</div>
+    <div class="stats" id="statsDisplay">צופים עכשיו: 1</div>
   </div>
 
   <div class="chat-box">
@@ -124,7 +137,7 @@
     </div>
     <div class="chat-messages" id="chatMessages"></div>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="כתוב הודעה...">
+      <input type="text" id="chatInput" placeholder="כתוב הודעה..." onkeypress="handleKeyPress(event)">
       <button onclick="sendMessage()">שלח</button>
     </div>
   </div>
@@ -138,6 +151,10 @@
         chatBox.innerHTML = saved;
         chatBox.scrollTop = chatBox.scrollHeight;
       }
+
+      // Update viewer count (simulate real-time)
+      updateViewerCount();
+      setInterval(updateViewerCount, 8000);
     };
 
     function sendMessage() {
@@ -153,8 +170,18 @@
       input.value = '';
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      // Save updated chat messages to localStorage
       localStorage.setItem('chatMessages', chatBox.innerHTML);
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function updateViewerCount() {
+      const viewers = Math.floor(Math.random() * 40) + 10;
+      document.getElementById("statsDisplay").innerText = "צופים עכשיו: " + viewers;
     }
   </script>
 
