@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>שידורי נתנאל</title>
   <style>
     body {
@@ -115,246 +115,115 @@
 </head>
 <body>
 
-  <div class="sidebar">
-    <h2>שידורי נתנאל</h2>
-    <p>עקובים: 497K</p>
-    <p>עקבו אחרינו באינסטגרם, טוויטר ויוטיוב!</p>
+<div class="sidebar">
+  <h2>שידורי נתנאל</h2>
+  <p>עקובים: 497K</p>
+  <p>עקבו אחרינו באינסטגרם, טוויטר ויוטיוב!</p>
+</div>
+
+<div class="main-video">
+  <iframe width="100%" height="100%" src="https://player.vimeo.com/video/76979871" frameborder="0" allowfullscreen></iframe>
+  <div class="hearts">❤️ 😍 🍬</div>
+  <div class="stats" id="statsDisplay">צופים עכשיו: 1</div>
+</div>
+
+<div class="chat-box">
+  <div class="avatars">
+    <div class="avatar"></div>
+    <div class="avatar"></div>
+    <div class="avatar"></div>
+    <div class="avatar"></div>
+    <div class="avatar"></div>
   </div>
-
-  <div class="main-video">
-    <iframe width="100%" height="100%" src="https://player.vimeo.com/video/76979871" frameborder="0" allowfullscreen></iframe>
-    <div class="hearts">❤️ 😍 🍬</div>
-    <div class="stats" id="statsDisplay">צופים עכשיו: 1</div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="כתוב הודעה..." onkeypress="handleKeyPress(event)">
+    <button onclick="sendMessage()">שלח</button>
   </div>
+</div>
 
-  <div class="chat-box">
-    <div class="avatars">
-      <div class="avatar"></div>
-      <div class="avatar"></div>
-      <div class="avatar"></div>
-      <div class="avatar"></div>
-      <div class="avatar"></div>
-    </div>
-    <div class="chat-messages" id="chatMessages"></div>
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="כתוב הודעה..." onkeypress="handleKeyPress(event)">
-      <button onclick="sendMessage()">שלח</button>
-    </div>
-  </div>
+<!-- צליל פינג -->
+<audio id="pingSound" src="https://notificationsounds.com/storage/sounds/file-sounds-1146-pristine.mp3"></audio>
 
-  <script>
-    window.onload = function () {
-      const chatBox = document.getElementById('chatMessages');
-      const saved = localStorage.getItem('chatMessages');
-      if (saved) {
-        chatBox.innerHTML = saved;
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-      updateViewerCount();
-      setInterval(updateViewerCount, 8000);
-      setInterval(addFakeMessage, 7000);
-    };
+<script>
+  const fakeUsers = [
+    "דנה", "מתן", "אור", "לינוי", "עידו", "רותם", "שקד", "טל", "יובל", "אביה",
+    "איתן", "רוני", "שיר", "אופיר", "נועם", "לירון", "הילה", "אלון", "רוני", "גיא",
+    "מאיה", "שחר", "אדם", "עמרי", "עדן", "עינת", "גלעד", "דניאל", "רון", "אביטל",
+    "זיו", "עדי", "שני", "חגית", "תומר", "ברק", "נטע", "מור", "ליאן", "מעיין",
+    "שרית", "שקד", "ספיר", "אפרת", "דור", "אייל", "חיים", "שירז", "רונית", "נועם"
+  ];
 
-    function sendMessage() {
-      const input = document.getElementById('chatInput');
-      const message = input.value.trim();
-      if (!message) return;
-      const chatBox = document.getElementById('chatMessages');
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'chat-message';
-      msgDiv.innerHTML = '<strong>אני:</strong><span>' + message + '</span>';
-      chatBox.appendChild(msgDiv);
-      input.value = '';
-      chatBox.scrollTop = chatBox.scrollHeight;
-      localStorage.setItem('chatMessages', chatBox.innerHTML);
-    }
+  const fakeMessages = [
+    "וואו איזה מדהים! 😍", "לא ראיתי דבר כזה בחיים שלי!", "מי עשה את העריכה המטורפת הזאת?!",
+    "אין דברים כאלה פשוט🔥", "נתנאל אתה אגדה!", "אמא'לה איזה מתח!", "כל שידור יותר טוב מהקודם!",
+    "כבר התמכרתי לזה 😅", "זה חייב להגיע לוויראלי!!", "פשוט מרגש ברמות!!", "התחלתי לראות ולא הצלחתי לעצור",
+    "תנו לייקקק", "צוחק בקול!", "בא לי עוד פרק עכשיו!", "נתנאל תוציא מרצ'!!", "תמשיכו ככה!", "הכי טוב ברשת", "אין מתחרים!",
+    "תותח על!", "רמה עולמית!", "הלב שלי דופק מהתרגשות", "זה שידור חי? מטורף!!", "אהבתי כל רגע", "פשוט אמנות", "תענוג של תוכן!"
+  ];
 
-    function handleKeyPress(event) {
-      if (event.key === 'Enter') {
-        sendMessage();
-      }
-    }
-
-    function updateViewerCount() {
-      const viewers = Math.floor(Math.random() * 40) + 10;
-      document.getElementById("statsDisplay").innerText = "צופים עכשיו: " + viewers;
-    }
-
-    const fakeUsers = [
-  "רז", "אביגיל", "אוריאל", "אבישג", "גדי", "שני", "עמיחי", "דוד", "מרים", "צחי",
-  "תמר", "אמיר", "שירה", "דולב", "אילה", "יעקב", "חנה", "תמרה", "אליה", "אבנר",
-  "יהב", "ניצן", "רונית", "אסף", "עומרי", "אלינור", "אברהם", "ליאב", "עמרי", "מרים",
-  "איתן", "רותם", "חגית", "אפרת", "אליאב", "דניאלה", "יעל", "יוחאי", "ליאור", "אביתר",
-  "זהבה", "מוטי", "קובי", "מיכאלה", "נמרוד", "יסכה", "יהודה", "גאיה", "עדי", "ליאל",
-  "אילן", "דולב", "אביב", "שקד", "נריה", "דניאל", "אביתר", "שירלי", "טל", "גפן",
-  "רוני", "עמליה", "חיים", "ליאורה", "תהילה", "אלמוג", "לירון", "נעה", "תמיר", "ברוך",
-  "עדי", "שרונה", "יואב", "שושנה", "אסנת", "יעקוב", "זאב", "אורית", "שמחה", "אהוד",
-  "דבורה", "נחמן", "שמעון", "ציפורה", "יונתן", "אודליה", "בנימין", "אפרים", "יוחנן", "סמי"
-];
-    const fakeMessages = [
-  "וואו איזה מדהים! 😍",
-  "לא ראיתי דבר כזה בחיים שלי!",
-  "מי עשה את העריכה המטורפת הזאת?!",
-  "אין דברים כאלה פשוט🔥",
-  "נתנאל אתה אגדה!",
-  "אמא'לה איזה מתח!",
-  "כל שידור יותר טוב מהקודם!",
-  "כבר התמכרתי לזה 😅",
-  "זה חייב להגיע לוויראלי!!",
-  "פשוט מרגש ברמות!!",
-  "איזה צבעים יפים ברקע!",
-  "רואים שיש כאן השקעה אמיתית",
-  "בא לי לראות את זה שוב ושוב!",
-  "איך לא הכרתי את זה קודם?!",
-  "המסך מרגיש חי!",
-  "התגובות פה מעיפות אותי!",
-  "הלבבות פשוט חמודים ברמות",
-  "זה כמו טלוויזיה אבל טוב יותר",
-  "הייתי בטוח שזה סרטון אמיתי!",
-  "זה מרגיש כמו מופע חי",
-  "העיצוב פשוט סוף הדרך!",
-  "איזה קצב! אי אפשר להוריד עיניים",
-  "מרגישים את האהבה כאן בקהל",
-  "כמו הופעה בשידור חי – אני עף!",
-  "קשה להאמין שזה לא לייב אמיתי 😱",
-  "התמכרתי רשמית 😍",
-  "איזה אווירה מטורפת פה!",
-  "רק חיכיתי שתתחיל ההופעה הזאת",
-  "אין עליכם! זה תוכן איכותי!",
-  "מרגיש כמו פסטיבל 🔥",
-  "אני שולח את זה לכל החברים שלי",
-  "המסך שלי רועד מההתרגשות",
-  "חייבים לעשות מזה מסורת שבועית",
-  "איך מעלים שידור כל כך מושלם?",
-  "זה פשוט טירוף מוחלט!",
-  "נתנאל תעלה עוד בבקשה!",
-  "אי אפשר להפסיק לחייך 🤩",
-  "הילדים שלי גם לא מפסיקים לצפות בזה",
-  "כל כך מרגיע ונעים",
-  "מרגיש כמו קליפ מוזיקלי מקצועי",
-  "עשיתם לי את הערב",
-  "בכיתי מרוב התרגשות 😭",
-  "חייבים לחשוף את זה לכולם!",
-  "שידור באיכות הוליוודית!",
-  "מזמן לא נהניתי ככה משידור",
-  "האווירה פה פשוט קסם",
-  "כמות האנרגיה פה לא נורמלית!",
-  "כל רגע פה – זהב טהור",
-  "תמשיכו לעשות את מה שאתם עושים",
-  "בא לי להיכנס למסך מרוב התלהבות",
-  "זה כמו לייב של דיסני!",
-  "המוזיקה והוויזואל פשוט חלום!",
-  "חייב לשתף את זה עם כל הקבוצה!",
-  "איזה רעיון גאוני!",
-  "השילוב של הצבעים פשוט מושלם!",
-  "זה השידור הכי מרגש שראיתי!",
-  "הלוואי וכל יום היה כזה!",
-  "אין עליכם! המשיכו ככה!",
-  "אני פשוט נדהם כל פעם מחדש!",
-  "זה רמה של חו\"ל!",
-  "לא להאמין שזה חינם!",
-  "ככה נראה בידור ברמה על!",
-  "פשוט עונג צרוף!",
-  "איפה הייתם כל החיים שלי?",
-  "שידור שנותן תקווה!",
-  "בא לי לבכות מרוב יופי",
-  "כמה השקעה בפרטים הקטנים!",
-  "מישהו חייב לכתוב על זה כתבה!",
-  "מרגיש כמו יום חג",
-  "שילוב מנצח של ויזואל ואנרגיה",
-  "לא מצליח להוריד את העיניים",
-  "מה שאני רואה פה – אמנות!",
-  "הלב שלי מתפוצץ משמחה!",
-  "זה כל כך מיוחד ובלתי נשכח!",
-  "איך זה לא משודר בטלוויזיה?!",
-  "זה מהפכני!",
-  "וואו פשוט וואו!",
-  "אם לא ראיתם את זה – רוצו!",
-  "שידור שמחבר בין לבבות",
-  "בא לי שזה לא ייגמר לעולם!",
-  "כל רגע פה יקר כמו יהלום",
-  "השידור הזה עושה היסטוריה",
-  "אני מאוהב בשידור הזה!",
-  "הכי טוב שראיתי השנה!",
-  "זה פשוט משאיר אותי חסר מילים",
-  "אין עליכם בכל הרמות",
-  "כל המדינה צריכה לראות את זה!",
-  "איך לא הכרתי אתכם קודם?!",
-  "נתנאל – אתה חלום שמתגשם",
-  "שידור שכולו השראה",
-  "תודה שאתם קיימים!",
-  "תמשיכו ככה ותכבשו את העולם!",
-  "הלב שלי דופק מהתרגשות!",
-  "אחד השידורים הכי יפים שראיתי!",
-  "מרגיש כאילו אני שם!",
-  "כל שוט נראה כמו תמונת נוף!",
-  "האווירה פה ממש משפחתית",
-  "נתנאל שולט ברשת!",
-  "איך עושים מנוי לתוכן הזה?",
-  "כל מילה כאן נוגעת בלב!",
-  "התגובות מרימות את השידור!",
-  "צמרמורת מהסצנה הזאת!",
-  "איזו איכות צפייה!",
-  "נתנאל זה נשמה טהורה!",
-  "תמשיכו! אנחנו אתכם כל הדרך!",
-  "אי אפשר שלא להתרגש",
-  "תמשיכו להפיץ אור כזה!",
-  "זה צריך להיות בכל חדשות הערב!",
-  "שיתוף חובה!",
-  "תוכן שמעלה חיוך ישר!",
-  "נראה כאילו זה מציאות רבודה!",
-  "מרגיש כמו חלום שמתגשם בלייב!",
-  "אין דברים כאלה בישראל!",
-  "שידור שנותן תקווה אמיתית!",
-  "אחת ולתמיד – השידור הכי טוב שהיה פה!",
-  "הלב מתפוצץ מכל מילה!",
-  "אם הייתם שואלים אותי – מגיע פרס אמי!",
-  "שידור מושלם מהתחלה ועד הסוף!",
-  "מבחינתי זה מדהים כל פעם מחדש!"
-]
-
-    function addFakeMessage() {
-      const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-      const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-      const chatBox = document.getElementById('chatMessages');
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'chat-message';
-      msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
-      chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-    const pingSound = new Audio("https://notificationsounds.com/storage/sounds/file-sounds-1152-pristine.mp3");
-
-  function addFakeMessage() {
-    const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-    const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-    const chatBox = document.getElementById('chatMessages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'chat-message';
-    msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
-    chatBox.appendChild(msgDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-    pingSound.play();
-  }
+  const pingSound = document.getElementById("pingSound");
   let userInteracted = false;
-  const pingSound = new Audio("https://notificationsounds.com/storage/sounds/file-sounds-1152-pristine.mp3");
 
-  document.getElementById('chatInput').addEventListener('focus', () => {
-    userInteracted = true;
-  });
+  window.onclick = () => userInteracted = true;
 
-  function addFakeMessage() {
-    const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-    const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-    const chatBox = document.getElementById('chatMessages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'chat-message';
-    msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
-    chatBox.appendChild(msgDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+  function playPing() {
     if (userInteracted) {
+      pingSound.currentTime = 0;
       pingSound.play();
     }
+  }
+
+  window.onload = function () {
+    const chatBox = document.getElementById('chatMessages');
+    const saved = localStorage.getItem('chatMessages');
+    if (saved) {
+      chatBox.innerHTML = saved;
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    updateViewerCount();
+    setInterval(updateViewerCount, 8000);
+    setInterval(addFakeMessage, 7000);
+  };
+
+  function updateViewerCount() {
+    const viewers = Math.floor(Math.random() * 40) + 10;
+    document.getElementById("statsDisplay").innerText = "צופים עכשיו: " + viewers;
+  }
+
+  function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    const chatBox = document.getElementById('chatMessages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-message';
+    msgDiv.innerHTML = '<strong>אני:</strong><span>' + message + '</span>';
+    chatBox.appendChild(msgDiv);
+    input.value = '';
+    chatBox.scrollTop = chatBox.scrollHeight;
+    localStorage.setItem('chatMessages', chatBox.innerHTML);
+    playPing();
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      sendMessage();
+    }
+  }
+
+  function addFakeMessage() {
+    const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+    const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+    const chatBox = document.getElementById('chatMessages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-message';
+    msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    playPing();
   }
 </script>
 
