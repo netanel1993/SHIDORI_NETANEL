@@ -143,7 +143,6 @@
   </div>
 
   <script>
-    // Load messages from localStorage on page load
     window.onload = function () {
       const chatBox = document.getElementById('chatMessages');
       const saved = localStorage.getItem('chatMessages');
@@ -151,17 +150,15 @@
         chatBox.innerHTML = saved;
         chatBox.scrollTop = chatBox.scrollHeight;
       }
-
-      // Update viewer count (simulate real-time)
       updateViewerCount();
       setInterval(updateViewerCount, 8000);
+      setInterval(addFakeMessage, 7000);
     };
 
     function sendMessage() {
       const input = document.getElementById('chatInput');
       const message = input.value.trim();
       if (!message) return;
-
       const chatBox = document.getElementById('chatMessages');
       const msgDiv = document.createElement('div');
       msgDiv.className = 'chat-message';
@@ -169,7 +166,6 @@
       chatBox.appendChild(msgDiv);
       input.value = '';
       chatBox.scrollTop = chatBox.scrollHeight;
-
       localStorage.setItem('chatMessages', chatBox.innerHTML);
     }
 
@@ -182,6 +178,31 @@
     function updateViewerCount() {
       const viewers = Math.floor(Math.random() * 40) + 10;
       document.getElementById("statsDisplay").innerText = "צופים עכשיו: " + viewers;
+    }
+
+    const fakeUsers = ["דנה", "מתן", "אור", "לינוי", "עידו", "רותם", "שקד", "טל", "יובל", "אביה"];
+    const fakeMessages = [
+      "וואו איזה מדהים! 😍",
+      "לא ראיתי דבר כזה בחיים שלי!",
+      "מי עשה את העריכה המטורפת הזאת?!",
+      "אין דברים כאלה פשוט🔥",
+      "נתנאל אתה אגדה!",
+      "אמא'לה איזה מתח!",
+      "כל שידור יותר טוב מהקודם!",
+      "כבר התמכרתי לזה 😅",
+      "זה חייב להגיע לוויראלי!!",
+      "פשוט מרגש ברמות!!"
+    ];
+
+    function addFakeMessage() {
+      const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+      const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+      const chatBox = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-message';
+      msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
   </script>
 
