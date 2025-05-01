@@ -323,7 +323,20 @@
       chatBox.appendChild(msgDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-  </script>
+    const pingSound = new Audio("https://notificationsounds.com/storage/sounds/file-sounds-1152-pristine.mp3");
+
+  function addFakeMessage() {
+    const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+    const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+    const chatBox = document.getElementById('chatMessages');
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'chat-message';
+    msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
+    chatBox.appendChild(msgDiv);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    pingSound.play();
+  }
+</script>
 
 </body>
 </html>
