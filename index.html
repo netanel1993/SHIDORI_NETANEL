@@ -34,7 +34,13 @@
       background: #fff2f9;
       padding: 20px;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-messages {
+      flex: 1;
       overflow-y: auto;
+      margin-bottom: 10px;
     }
     .chat-message {
       margin-bottom: 15px;
@@ -74,6 +80,25 @@
       background: pink;
       border: 2px solid white;
     }
+    .chat-input {
+      display: flex;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+    .chat-input button {
+      padding: 10px 15px;
+      margin-right: 5px;
+      background: #ff99cc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -97,19 +122,41 @@
       <div class="avatar"></div>
       <div class="avatar"></div>
     </div>
-    <div class="chat-message">
-      <strong>גדי:</strong>
-      <span>מאחלת אושר ושלוום!</span>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-message">
+        <strong>גדי:</strong>
+        <span>מאחלת אושר ושלוום!</span>
+      </div>
+      <div class="chat-message">
+        <strong>שרון:</strong>
+        <span>מותק אצבת את הסרטון?</span>
+      </div>
+      <div class="chat-message">
+        <strong>דן:</strong>
+        <span>רק בריאות!</span>
+      </div>
     </div>
-    <div class="chat-message">
-      <strong>שרון:</strong>
-      <span>מותק אצבת את הסרטון?</span>
-    </div>
-    <div class="chat-message">
-      <strong>דן:</strong>
-      <span>רק בריאות!</span>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="כתוב הודעה...">
+      <button onclick="sendMessage()">שלח</button>
     </div>
   </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const chatBox = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-message';
+      msgDiv.innerHTML = '<strong>אני:</strong><span>' + message + '</span>';
+      chatBox.appendChild(msgDiv);
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
 
 </body>
 </html>
