@@ -111,121 +111,128 @@
       cursor: pointer;
       color: white;
     }
+    .sound-button {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 9999;
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-<div class="sidebar">
-  <h2>שידורי נתנאל</h2>
-  <p>עקובים: 497K</p>
-  <p>עקבו אחרינו באינסטגרם, טוויטר ויוטיוב!</p>
-</div>
+  <button class="sound-button" onclick="enableSound()">הפעל סאונד 🔊</button>
+  <audio id="pingSound" src="https://notificationsounds.com/storage/sounds/file-sounds-1146-pristine.mp3"></audio>
 
-<div class="main-video">
-  <iframe width="100%" height="100%" src="https://player.vimeo.com/video/76979871" frameborder="0" allowfullscreen></iframe>
-  <div class="hearts">❤️ 😍 🍬</div>
-  <div class="stats" id="statsDisplay">צופים עכשיו: 1</div>
-</div>
-
-<div class="chat-box">
-  <div class="avatars">
-    <div class="avatar"></div>
-    <div class="avatar"></div>
-    <div class="avatar"></div>
-    <div class="avatar"></div>
-    <div class="avatar"></div>
+  <div class="sidebar">
+    <h2>שידורי נתנאל</h2>
+    <p>עקובים: 497K</p>
+    <p>עקבו אחרינו באינסטגרם, טוויטר ויוטיוב!</p>
   </div>
-  <div class="chat-messages" id="chatMessages"></div>
-  <div class="chat-input">
-    <input type="text" id="chatInput" placeholder="כתוב הודעה..." onkeypress="handleKeyPress(event)">
-    <button onclick="sendMessage()">שלח</button>
+
+  <div class="main-video">
+    <iframe width="100%" height="100%" src="https://player.vimeo.com/video/76979871" frameborder="0" allowfullscreen></iframe>
+    <div class="hearts">❤️ 😍 🍬</div>
+    <div class="stats" id="statsDisplay">צופים עכשיו: 1</div>
   </div>
-</div>
 
-<!-- צליל פינג -->
-<audio id="pingSound" src="https://notificationsounds.com/storage/sounds/file-sounds-1146-pristine.mp3"></audio>
+  <div class="chat-box">
+    <div class="avatars">
+      <div class="avatar"></div>
+      <div class="avatar"></div>
+      <div class="avatar"></div>
+      <div class="avatar"></div>
+      <div class="avatar"></div>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="כתוב הודעה..." onkeypress="handleKeyPress(event)">
+      <button onclick="sendMessage()">שלח</button>
+    </div>
+  </div>
 
-<script>
-  const fakeUsers = [
-    "דנה", "מתן", "אור", "לינוי", "עידו", "רותם", "שקד", "טל", "יובל", "אביה",
-    "איתן", "רוני", "שיר", "אופיר", "נועם", "לירון", "הילה", "אלון", "רוני", "גיא",
-    "מאיה", "שחר", "אדם", "עמרי", "עדן", "עינת", "גלעד", "דניאל", "רון", "אביטל",
-    "זיו", "עדי", "שני", "חגית", "תומר", "ברק", "נטע", "מור", "ליאן", "מעיין",
-    "שרית", "שקד", "ספיר", "אפרת", "דור", "אייל", "חיים", "שירז", "רונית", "נועם"
-  ];
+  <script>
+    const fakeUsers = ["דנה", "מתן", "אור", "לינוי", "עידו", "רותם", "שקד", "טל", "יובל", "אביה", "שיר", "אופיר", "נועם", "לירון", "איתן", "רוני", "מאיה", "שחר", "אדם", "עמרי", "דניאל", "רון", "אביטל", "נטע", "מור", "ליאן", "מעיין", "תומר", "ברק", "אייל", "חיים", "שירז", "רונית", "עמית", "סיון", "דנה", "אסף", "אלינה", "נעמי", "יואב", "אבשלום", "דביר", "מאור", "אדיר", "הודיה", "אורטל", "עידן", "יוליה", "כרמל"];
+    
+    const fakeMessages = [
+      "וואו איזה מדהים! 😍", "לא ראיתי דבר כזה בחיים שלי!", "מי עשה את העריכה המטורפת הזאת?!",
+      "אין דברים כאלה פשוט🔥", "נתנאל אתה אגדה!", "אמא'לה איזה מתח!", "כל שידור יותר טוב מהקודם!",
+      "כבר התמכרתי לזה 😅", "זה חייב להגיע לוויראלי!!", "פשוט מרגש ברמות!!", "תנו לייק!", "צוחק בקול!",
+      "בא לי עוד פרק עכשיו!", "תוציא מרצ'!!", "רמה עולמית!", "הלב שלי דופק!", "זה שידור חי?! מטורף!", 
+      "הכי טוב ברשת", "תותח על!", "אין מתחרים!", "תמשיכו ככה!", "אמנות טהורה", "תענוג של תוכן", "נתנאל כובש!"
+    ];
 
-  const fakeMessages = [
-    "וואו איזה מדהים! 😍", "לא ראיתי דבר כזה בחיים שלי!", "מי עשה את העריכה המטורפת הזאת?!",
-    "אין דברים כאלה פשוט🔥", "נתנאל אתה אגדה!", "אמא'לה איזה מתח!", "כל שידור יותר טוב מהקודם!",
-    "כבר התמכרתי לזה 😅", "זה חייב להגיע לוויראלי!!", "פשוט מרגש ברמות!!", "התחלתי לראות ולא הצלחתי לעצור",
-    "תנו לייקקק", "צוחק בקול!", "בא לי עוד פרק עכשיו!", "נתנאל תוציא מרצ'!!", "תמשיכו ככה!", "הכי טוב ברשת", "אין מתחרים!",
-    "תותח על!", "רמה עולמית!", "הלב שלי דופק מהתרגשות", "זה שידור חי? מטורף!!", "אהבתי כל רגע", "פשוט אמנות", "תענוג של תוכן!"
-  ];
-
-  const pingSound = document.getElementById("pingSound");
-  let userInteracted = false;
-
-  window.onclick = () => userInteracted = true;
-
-  function playPing() {
-    if (userInteracted) {
-      pingSound.currentTime = 0;
-      pingSound.play();
-    }
-  }
-
-  window.onload = function () {
     const chatBox = document.getElementById('chatMessages');
-    const saved = localStorage.getItem('chatMessages');
-    if (saved) {
-      chatBox.innerHTML = saved;
+    const pingSound = document.getElementById("pingSound");
+    let userInteracted = false;
+
+    function enableSound() {
+      userInteracted = true;
+      pingSound.play().catch(() => {});
+    }
+
+    function playPing() {
+      if (userInteracted) {
+        pingSound.currentTime = 0;
+        pingSound.play().catch(() => {});
+      }
+    }
+
+    window.onload = function () {
+      const saved = localStorage.getItem('chatMessages');
+      if (saved) {
+        chatBox.innerHTML = saved;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      updateViewerCount();
+      setInterval(updateViewerCount, 8000);
+      setInterval(addFakeMessage, 7000);
+    };
+
+    function updateViewerCount() {
+      const viewers = Math.floor(Math.random() * 40) + 10;
+      document.getElementById("statsDisplay").innerText = "צופים עכשיו: " + viewers;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-message';
+      msgDiv.innerHTML = '<strong>אני:</strong><span>' + message + '</span>';
+      chatBox.appendChild(msgDiv);
+      input.value = '';
       chatBox.scrollTop = chatBox.scrollHeight;
+      localStorage.setItem('chatMessages', chatBox.innerHTML);
+      playPing();
     }
 
-    updateViewerCount();
-    setInterval(updateViewerCount, 8000);
-    setInterval(addFakeMessage, 7000);
-  };
-
-  function updateViewerCount() {
-    const viewers = Math.floor(Math.random() * 40) + 10;
-    document.getElementById("statsDisplay").innerText = "צופים עכשיו: " + viewers;
-  }
-
-  function sendMessage() {
-    const input = document.getElementById('chatInput');
-    const message = input.value.trim();
-    if (!message) return;
-
-    const chatBox = document.getElementById('chatMessages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'chat-message';
-    msgDiv.innerHTML = '<strong>אני:</strong><span>' + message + '</span>';
-    chatBox.appendChild(msgDiv);
-    input.value = '';
-    chatBox.scrollTop = chatBox.scrollHeight;
-    localStorage.setItem('chatMessages', chatBox.innerHTML);
-    playPing();
-  }
-
-  function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      sendMessage();
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
     }
-  }
 
-  function addFakeMessage() {
-    const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
-    const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
-    const chatBox = document.getElementById('chatMessages');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = 'chat-message';
-    msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
-    chatBox.appendChild(msgDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-    playPing();
-  }
-</script>
+    function addFakeMessage() {
+      const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+      const text = fakeMessages[Math.floor(Math.random() * fakeMessages.length)];
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'chat-message';
+      msgDiv.innerHTML = '<strong>' + user + ':</strong><span>' + text + '</span>';
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      playPing();
+    }
+  </script>
 
 </body>
 </html>
